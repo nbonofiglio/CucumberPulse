@@ -1,4 +1,5 @@
 # Maven
+
 # Build your Java project and run tests with Apache Maven.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
@@ -20,8 +21,18 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
-- bash: # script path or inline
-  workingDirectory: #
-  displayName: #
-  failOnStderr: #
-  env:  # mapping of environment variables to add
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      $url = 'https://pulse-7.qtestnet.com/webhook/3e1eca1c-8bf1-4ae1-8aa7-6b22c94499b2'
+      Set-Location -Path ".\target"
+      $payload = (Get-Content "cucumber-report.json" -Raw)
+      $body = @{
+        'projectId' = '90092'
+        'test-cycle' = '1707599'
+        'requiresDecode' = 'true'
+        'result' = $payload
+      }
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+      Invoke-RestMethod -Body $body -Method 'Post' -Uri $url
