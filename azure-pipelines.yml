@@ -30,7 +30,7 @@ steps:
       $payload = (Get-Content "cucumber-report.json" -Raw)
       $body = @{
         'projectId' = '90092'
-        'test-cycle' = '1707599'
+        'test-cycle' = '1782970'
         'requiresDecode' = 'true'
         'result' = $payload
       }
