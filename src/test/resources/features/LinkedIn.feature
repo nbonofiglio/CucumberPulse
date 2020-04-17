@@ -1,5 +1,4 @@
-Feature:
-  LinkedIn account creation
+Feature: LinkedIn account creation
 
   Scenario:
     User successfully creates a LinkedIn Account
